@@ -1,0 +1,52 @@
+﻿@using DevExpress.ExpressApp.Actions;
+@using DevExpress.Blazor.Internal
+@inherits ActionBaseComponent
+
+@if (Action.Active) {
+    <li onclick="@(() => { OnClick(DefaultItem); })" class=@Utils.CombineCssClasses("", DisabledCssClass)>
+        @switch (Action.PaintStyle) {
+            case DevExpress.ExpressApp.Templates.ActionItemPaintStyle.CaptionAndImage:
+            case DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Default:
+                if (!string.IsNullOrEmpty(Action.ImageName)) {
+                    <img src=@GetActionImageUrl() />
+                }
+                <span>@Action.Caption</span>
+                break;
+            case DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Image:
+                if (!string.IsNullOrEmpty(Action.ImageName)) {
+                    <img src=@Action.ImageName />
+                } else {
+                    <span>@Action.Caption</span>
+                }
+                break;
+            case DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption:
+                <span>@Action.Caption</span>
+                break;
+        }
+        @if (Action.Items.Count > 0) {
+            <ul>
+                @foreach (ChoiceActionItem choiceActionItem in Action.Items) {
+                    <li>
+                        <ChoiseActionItemComponent Click="@OnClick" PaintStyle=@Action.PaintStyle Item=@choiceActionItem />
+                    </li>
+                }
+            </ul>
+        }
+    </li>
+}
+@functions {
+    [Parameter]
+    new SingleChoiceAction Action {
+        get => (SingleChoiceAction)base.Action;
+        set => base.Action = value;
+    }
+    private ChoiceActionItem PressedItem { get; set; }
+    private ChoiceActionItem DefaultItem => Action.Items[0];
+    public void OnClick(ChoiceActionItem choiceActionItem) {
+        PressedItem = choiceActionItem;
+        Execute();
+    }
+    protected override void ExecuteCore() {
+        Action.DoExecute(PressedItem);
+    }
+}

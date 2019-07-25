@@ -1,0 +1,42 @@
+﻿@page "/"
+@page "/{ViewID}"
+@page "/{ViewID}/{ObjectKey}"
+@using BlazorXafSolution.Blazor.Xaf
+@using BlazorXafSolution.Blazor.Components.Actions
+@inherits XafRootComponentBase
+<CascadingValue Value=this>
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+    <div class="root">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <ActionContainerHolder ID="mainMenu">
+                <ActionContainers>
+                    <BlazorActionContainerComponent ContainerId="ObjectsCreation" />
+                    <BlazorActionContainerComponent ContainerId="Save" DefaultActionID="Save" IsDropDown="true" AutoChangeDefaultAction="true" />
+                    <BlazorActionContainerComponent ContainerId="Edit" />
+                    <BlazorActionContainerComponent ContainerId="RecordEdit" />
+                    <BlazorActionContainerComponent ContainerId="View" />
+                    <BlazorActionContainerComponent ContainerId="Export" />
+                    <BlazorActionContainerComponent ContainerId="Reports" />
+                    <BlazorActionContainerComponent ContainerId="Filters" />
+                    <BlazorActionContainerComponent ContainerId="RecordsNavigation" />
+                    <BlazorActionContainerComponent ContainerId="Tools" />
+                    <BlazorActionContainerComponent ContainerId="Diagnostic" />
+                </ActionContainers>
+            </ActionContainerHolder>
+            <ActionContainerHolder ID="SearchAC">
+                <ActionContainers>
+                    <BlazorActionContainerComponent ContainerId="Search" />
+                    <BlazorActionContainerComponent ContainerId="FullTextSearch" />
+                </ActionContainers>
+            </ActionContainerHolder>
+        </nav>
+        <div class="content px-4">
+            <ViewSiteControl View="@View" />
+        </div>
+    </div>
+</CascadingValue>
+
+@functions {
+}

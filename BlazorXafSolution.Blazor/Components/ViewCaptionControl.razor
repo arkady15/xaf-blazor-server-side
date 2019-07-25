@@ -1,0 +1,14 @@
+﻿@using DevExpress.ExpressApp
+@using Microsoft.AspNetCore.Components
+@if (View == null) {
+    <p>Empty</p>
+} else {
+    <span class="navbar-brand">
+        <h1>@View.Caption</h1>
+        <h2>@View.GetCurrentObjectCaption()</h2>
+    </span>
+}
+
+@functions{
+    [Parameter] View View { get; set; }
+}

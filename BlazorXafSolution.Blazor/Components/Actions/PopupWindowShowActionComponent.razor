@@ -1,0 +1,32 @@
+﻿@using DevExpress.ExpressApp.Actions;
+@using DevExpress.Blazor.Internal
+@inherits ActionBaseComponent
+
+@if (Action.Active) {
+    <li class=@Utils.CombineCssClasses("", DisabledCssClass)>
+        @switch (Action.PaintStyle) {
+            case DevExpress.ExpressApp.Templates.ActionItemPaintStyle.CaptionAndImage:
+                <img src=@GetActionImageUrl() />
+                <span>@Action.Caption</span>
+                break;
+            case DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Image:
+                <img src=@GetActionImageUrl() />
+                break;
+            case DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Default:
+            case DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption:
+                <span>@Action.Caption</span>
+                break;
+        }
+
+    </li>
+}
+@functions {
+    [Parameter]
+    new PopupWindowShowAction Action {
+        get => (PopupWindowShowAction)base.Action;
+        set => base.Action = value;
+    }
+    protected override void ExecuteCore() {
+        //Action.DoExecute();
+    }
+}

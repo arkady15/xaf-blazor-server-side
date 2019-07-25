@@ -1,0 +1,44 @@
+﻿@using DevExpress.ExpressApp.Actions;
+@using DevExpress.ExpressApp.Blazor;
+@using DevExpress.ExpressApp.Templates;
+<span class="paddingZero" onclick="@OnClick">
+    @switch (PaintStyle) {
+        case DevExpress.ExpressApp.Templates.ActionItemPaintStyle.CaptionAndImage:
+        case DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Default:
+            if (!string.IsNullOrEmpty(Item.ImageName)) {
+                <img src=@ImageUrl />
+            }
+            <span>@Item.Caption</span>
+            break;
+        case DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Image:
+            if (!string.IsNullOrEmpty(Item.ImageName)) {
+                <img src=@Item.ImageName />
+            } else {
+                <span>@Item.Caption</span>
+            }
+            break;
+        case DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption:
+            <span>@Item.Caption</span>
+            break;
+    }
+</span>
+@if (!IsRoot && Item.Items.Count > 0) {
+    <ul>
+        @foreach (ChoiceActionItem choiceActionItem in Item.Items) {
+            <li class="subs">
+                <ChoiseActionItemComponent Click="@Click" PaintStyle=@PaintStyle Item=@choiceActionItem />
+            </li>
+        }
+    </ul>
+}
+@functions {
+    [Parameter] ActionItemPaintStyle PaintStyle { get; set; }
+    [Parameter] ChoiceActionItem Item { get; set; }
+    [Parameter] Action<ChoiceActionItem> Click { get; set; }
+    [Parameter] bool IsRoot { get; set; } = false;
+    string ImageUrl => ImageToStringHelper.GetImageBase64(Item.ImageName);
+
+    void OnClick() {
+        Click(Item);
+    }
+}

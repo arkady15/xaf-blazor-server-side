@@ -1,0 +1,66 @@
+﻿@using BlazorXafSolution.Blazor.Xaf.Templates;
+@using DevExpress.ExpressApp.Templates;
+@using DevExpress.ExpressApp.Actions;
+@implements IDisposable
+
+<div class="main_nav" id=@ID>
+    <CascadingValue Value=this>
+        @ActionContainers
+    </CascadingValue>
+    <ul>
+        @foreach (BlazorActionContainer actionContainer in actionContainers) {
+            @foreach (ActionBase action in actionContainer.Actions) {
+                if (action is SimpleAction simpleAction) {
+                    <SimpleActionComponent Action="@simpleAction" />
+                } else if (action is SingleChoiceAction singleChoiceAction) {
+                    <SingleChoiceActionComponent Action="@singleChoiceAction" />
+                } else if (action is ParametrizedAction parametrizedAction) {
+                    <ParametrizedActionComponent Action="@parametrizedAction" />
+                } else if (action is PopupWindowShowAction popupWindowShowAction) {
+                    <PopupWindowShowActionComponent Action="@popupWindowShowAction" />
+                } else if (action is ActionUrl actionUrl) {
+                    <ActionUrlComponent Action="@actionUrl" />
+                } else {
+                    //actionItem = CreateDefaultActionItem(action);
+                }
+            }
+        }
+    </ul>
+</div>
+
+@functions {
+    [Parameter] string ID { get; set; }
+    [Parameter] RenderFragment ActionContainers { get; set; }
+    [CascadingParameter] IDynamicContainersTemplate dynamicContainersTemplate { get; set; }
+
+    private List<BlazorActionContainer>
+    actionContainers = new List<BlazorActionContainer>
+        ();
+
+    public void AddActionContainer(BlazorActionContainer actionContainer) {
+        actionContainers.Add(actionContainer);
+        RegisterActionContainers();
+        StateHasChanged();
+    }
+    public void RemoveActionContainer(BlazorActionContainer actionContainer) {
+        actionContainers.Remove(actionContainer);
+        UnregisterActionContainers();
+        StateHasChanged();
+    }
+    private void RegisterActionContainers() {
+        if (dynamicContainersTemplate != null) {
+            dynamicContainersTemplate.RegisterActionContainers(actionContainers);
+        }
+    }
+    private void UnregisterActionContainers() {
+        if (dynamicContainersTemplate != null) {
+            dynamicContainersTemplate.UnregisterActionContainers(actionContainers);
+        }
+    }
+    public void Dispose() {
+        UnregisterActionContainers();
+    }
+    protected override void OnAfterRender() {
+        base.OnAfterRender();
+    }
+}

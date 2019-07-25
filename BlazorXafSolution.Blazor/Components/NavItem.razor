@@ -1,0 +1,37 @@
+@using BlazorXafSolution.Blazor.Services;
+@using BlazorXafSolution.Blazor.Xaf.SystemModule
+@using DevExpress.ExpressApp;
+@using DevExpress.ExpressApp.Actions;
+@using DevExpress.ExpressApp.SystemModule;
+@using DevExpress.ExpressApp.Templates;
+@using DevExpress.ExpressApp.Templates.ActionContainers;
+@using Microsoft.AspNetCore.Components;
+@using DevExpress.Persistent.Base
+@inject IBlazorApplicationProvider BlazorApplicationProvider
+
+<li class="nav-item px-3">
+    @if(Item.Data == null) {
+        <span style="color: #cecece;" aria-hidden="true"> @Item.Caption</span>
+    }
+    else {
+        <NavLink class="nav-link" href="@GetUrl(Item.Data)">
+            <span aria-hidden="true"> @Item.Caption</span>
+        </NavLink>
+    }
+    @if(Item.Items.Count > 0) {
+        <ul class="nav flex-column">
+            @foreach(ChoiceActionItem item in Item.Items) {
+                <NavItem Item="@item" />
+            }
+        </ul>
+    }
+</li>
+
+@functions {
+    [Parameter]
+    private ChoiceActionItem Item { get; set; }
+
+    string GetUrl(object data) {
+        return $"/{((ViewShortcut)data).ViewId}";
+    }
+}

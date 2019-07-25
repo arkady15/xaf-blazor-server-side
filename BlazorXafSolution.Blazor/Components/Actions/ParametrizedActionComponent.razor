@@ -1,0 +1,51 @@
+﻿@using DevExpress.ExpressApp.Actions;
+@using DevExpress.ExpressApp
+@using BlazorXafSolution.Blazor.Services
+@using DevExpress.Blazor.Internal
+@inherits ActionBaseComponent
+
+@if (Action.Active) {
+
+    <li class=@Utils.CombineCssClasses("", DisabledCssClass)>
+        <div class="form-inline">
+            <input @bind="@searchValue" class="form-control mr-sm-2" type="search" />
+            <button @onclick="@Execute" class="btn btn-outline-success my-2 my-sm-0" type="button">
+                @switch (Action.PaintStyle) {
+                    case DevExpress.ExpressApp.Templates.ActionItemPaintStyle.CaptionAndImage:
+                    case DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Default:
+                        if (!string.IsNullOrEmpty(Action.ImageName)) {
+                            <img src=@GetActionImageUrl() />
+                        }
+                        <span>@Action.Caption</span>
+                        break;
+                    case DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Image:
+                        if (!string.IsNullOrEmpty(Action.ImageName)) {
+                            <img src=@GetActionImageUrl() />
+                        } else {
+                            <span>@Action.Caption</span>
+                        }
+                        break;
+                    case DevExpress.ExpressApp.Templates.ActionItemPaintStyle.Caption:
+                        <span>@Action.Caption</span>
+                        break;
+                }
+            </button>
+        </div>
+    </li>
+}
+@functions {
+    [Parameter]
+    new ParametrizedAction Action {
+        get => (ParametrizedAction)base.Action;
+        set => base.Action = value;
+    }
+    string searchValue;
+    protected override void OnParametersSet() {
+        base.OnParametersSet();
+        searchValue = string.Empty;
+    }
+    protected override void ExecuteCore() {
+        object value = Convert.ChangeType(searchValue, Action.ValueType);
+        Action.DoExecute(value);
+    }
+}

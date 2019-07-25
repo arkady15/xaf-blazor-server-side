@@ -1,0 +1,40 @@
+@using BlazorXafSolution.Blazor.Services;
+@using BlazorXafSolution.Blazor.Xaf.SystemModule
+@using DevExpress.ExpressApp;
+@using DevExpress.ExpressApp.Actions;
+@using DevExpress.ExpressApp.SystemModule;
+@using DevExpress.ExpressApp.Templates;
+@using DevExpress.ExpressApp.Templates.ActionContainers;
+@using Microsoft.AspNetCore.Components;
+@inject IBlazorApplicationProvider BlazorApplicationProvider
+
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">BlazorXafSolution.Blazor</a>
+    <button class="navbar-toggler" onclick="@ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" onclick="@ToggleNavMenu">
+    <ul class="nav flex-column">
+        @foreach(ChoiceActionItem item in controller.ShowNavigationItemAction.Items) {
+            <NavItem Item="@item" />
+        }
+    </ul>
+</div>
+
+@functions {
+    protected override void OnInit() {
+        base.OnInit();
+
+        controller = BlazorApplicationProvider.Application.MainWindow.GetController<ShowNavigationItemController>();
+    }
+    ShowNavigationItemController controller;
+    bool collapseNavMenu = true;
+
+    string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    void ToggleNavMenu() {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

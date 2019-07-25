@@ -1,0 +1,29 @@
+﻿@using DevExpress.ExpressApp
+@using DevExpress.Blazor
+@using BlazorXafSolution.Blazor.Services
+@using Microsoft.AspNetCore.Components
+@implements IViewSiteControl
+@inject IViewSiteControlProvider ViewSiteControlProvider
+@if (View == null) {
+    <p>Empty</p>
+} else {
+    <ViewCaptionControl View="@View" />
+    @if (ListView != null) {
+        <BlazorGridListEditorComponent View="@ListView" />
+    } else if (DetailView != null) {
+        <BlazorDetailViewComponent View="@DetailView" />
+    }
+}
+
+@functions{
+    [Parameter] View View { get; set; }
+    private ListView ListView => View as ListView;
+    private DetailView DetailView => View as DetailView;
+    protected override void OnInit() {
+        base.OnInit();
+        ViewSiteControlProvider.RegisterViewSiteControl(this);
+    }
+    void IViewSiteControl.Render() {
+        StateHasChanged();
+    }
+}

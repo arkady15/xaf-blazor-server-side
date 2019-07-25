@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Configurations>Debug;Release;EasyTest</Configurations>
+    <RootNamespace>BlazorXafSolution.Module</RootNamespace>
+    <AssemblyName>BlazorXafSolution.Module</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugTest|AnyCPU' ">
+    <DefineConstants>TRACE;DEBUG;EASYTEST</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="DatabaseUpdate\EmployeesWithPhoto.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DatabaseUpdate\EmployeesWithPhoto.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.7.0-preview6.19303.8" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Data.v19.2">
+      <HintPath>f:\SOURCE\Git\2019.2\XAF\Bin\Standard\DevExpress.Data.v19.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.v19.2">
+      <HintPath>f:\SOURCE\Git\2019.2\XAF\Bin\Standard\DevExpress.ExpressApp.v19.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.Xpo.v19.2">
+      <HintPath>f:\SOURCE\Git\2019.2\XAF\Bin\Standard\DevExpress.ExpressApp.Xpo.v19.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Persistent.Base.v19.2">
+      <HintPath>f:\SOURCE\Git\2019.2\XAF\Bin\Standard\DevExpress.Persistent.Base.v19.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Persistent.BaseImpl.v19.2">
+      <HintPath>f:\SOURCE\Git\2019.2\XAF\Bin\Standard\DevExpress.Persistent.BaseImpl.v19.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpo.v19.2">
+      <HintPath>f:\SOURCE\Git\2019.2\XAF\Bin\Standard\DevExpress.Xpo.v19.2.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>
